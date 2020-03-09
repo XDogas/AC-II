@@ -1,0 +1,27 @@
+display7Scodes[] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F, 0x77, 0x7C, 0x39, 0x5E, 0x79, 0x71};
+
+  a
+f   b
+  g             -> ordem do display (Exemplo 0 em Binário: hgfedcba -> 00111111)
+e   c
+  d     h
+
+ativo   -> 1
+inativo -> 0
+
+0 -> Binário: 00111111 -> Hexadecimal: 0x3F
+1 -> Binário: 00000110 -> Hexadecimal: 0x06
+2 -> Binário: 01011011 -> Hexadecimal: 0x5B
+3 -> Binário: 01001111 -> Hexadecimal: 0x4F
+4 -> Binário: 01100110 -> Hexadecimal: 0x66
+5 -> Binário: 01101101 -> Hexadecimal: 0x6D
+6 -> Binário: 01111101 -> Hexadecimal: 0x7D
+7 -> Binário: 00000111 -> Hexadecimal: 0x07
+8 -> Binário: 01111111 -> Hexadecimal: 0x7F
+9 -> Binário: 01101111 -> Hexadecimal: 0x6F
+A -> Binário: 01110111 -> Hexadecimal: 0x77
+b -> Binário: 01111100 -> Hexadecimal: 0x7C
+C -> Binário: 00111001 -> Hexadecimal: 0x39
+d -> Binário: 01011110 -> Hexadecimal: 0x5E
+E -> Binário: 01111001 -> Hexadecimal: 0x79
+F -> Binário: 01110001 -> Hexadecimal: 0x71
