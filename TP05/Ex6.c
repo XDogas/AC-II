@@ -1,5 +1,4 @@
 #include <detpic32.h>
-#include "delay.c"
 
 int main(void) {
 
@@ -30,24 +29,12 @@ int main(void) {
 
     while(1) {
 
-        AD1CON1bits.ASAM = 1;                   // Start conversion
-        while(IFS1bits.AD1IF == 0);             // Wait while conversion not done (AD1IF == 0)
-        int *p = (int *)(&ADC1BUF0);
-
-        int i;
-        for(i = 0; i < 16; i++) {               // com este for os numeros têm sempre 4 digitos
-            printInt(p[i*4], 10 | 4 << 16);     // 16 MSBits with the number of chars (4 in this situation)
-            putChar(' ');                       // 16 LSBits with the base (10 in this situation)
-        }
-            // OU
-        //for(; p <= (int *)(&ADC1BUFF); p+=4) {
-        //    printInt(*p, 10 | 4 << 10);         // Print value
-        //    putChar(' ');
-        //}
-
-        delay(500);                             // used to make debugging easier
-        printf("\n");                           // print new line
-        IFS1bits.AD1IF = 0;                     // Reset AD1IF
+        LATEbits.LATE0 = 1;             // Set LATE0
+        AD1CON1bits.ASAM = 1;           // Start conversion
+        while(IFS1bits.AD1IF == 0);     // Wait while conversion not done (AD1IF == 0)
+        LATEbits.LATE0 = 0;             // Reset LATE0
+        int aux = ADC1BUF0;             // Read conversion result (ADC1BUF0) to "aux" variable
+        IFS1bits.AD1IF = 0;             // Reset AD1IF
     }
 
     return 0;

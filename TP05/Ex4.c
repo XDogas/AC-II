@@ -33,17 +33,28 @@ int main(void) {
         AD1CON1bits.ASAM = 1;                   // Start conversion
         while(IFS1bits.AD1IF == 0);             // Wait while conversion not done (AD1IF == 0)
         int *p = (int *)(&ADC1BUF0);
+        int soma = 0;
 
         int i;
         for(i = 0; i < 16; i++) {               // com este for os numeros têm sempre 4 digitos
             printInt(p[i*4], 10 | 4 << 16);     // 16 MSBits with the number of chars (4 in this situation)
             putChar(' ');                       // 16 LSBits with the base (10 in this situation)
+            soma += p[i*4];
         }
             // OU
         //for(; p <= (int *)(&ADC1BUFF); p+=4) {
         //    printInt(*p, 10 | 4 << 10);         // Print value
         //    putChar(' ');
+        //    soma += *p;
         //}
+
+        double media = soma / 4.0;
+        printStr("\tMedia: ");
+        printInt((int)media, 10 | 4 << 10);
+
+        int v = (media * 33) / 1023;
+        printStr("\tVoltagem: V");
+        printInt(v, 10 | 2 << 10);
 
         delay(500);                             // used to make debugging easier
         printf("\n");                           // print new line
