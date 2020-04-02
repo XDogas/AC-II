@@ -43,14 +43,10 @@ int main(void) {
             int *p = (int *)(&ADC1BUF0);
             int soma = 0;
 
-            //int j;
-            //for(j = 0; j < 16; j++) soma += p[i*4]; // exerimentar com j em vez de i
-                // OU
             for(; p <= (int *)(&ADC1BUFF); p+=4) soma += *p;
 
             double media = soma / 4.0;
             v = (media * 33) / 1023;
-
             IFS1bits.AD1IF = 0;                     // Reset AD1IF
         }
         send2displays_v2(toBcd(v & 0xFF));
