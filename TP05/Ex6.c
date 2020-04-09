@@ -2,6 +2,10 @@
 
 int main(void) {
 
+    volatile int aux;
+
+    TRISEbits.TRISE0=0;         //Configure A/D module; configure RE0 as a digital output port
+
     // configurar o porto RB4 como entrada analógica :
     TRISBbits.TRISB4 = 1;       // RB4 digital output disconnected
     AD1PCFGbits.PCFG4 = 0;      // RB4 configured as analog input (AN4)
@@ -33,7 +37,7 @@ int main(void) {
         AD1CON1bits.ASAM = 1;           // Start conversion
         while(IFS1bits.AD1IF == 0);     // Wait while conversion not done (AD1IF == 0)
         LATEbits.LATE0 = 0;             // Reset LATE0
-        int aux = ADC1BUF0;             // Read conversion result (ADC1BUF0) to "aux" variable
+        aux = ADC1BUF0;             // Read conversion result (ADC1BUF0) to "aux" variable
         IFS1bits.AD1IF = 0;             // Reset AD1IF
     }
 
