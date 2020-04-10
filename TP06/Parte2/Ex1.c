@@ -1,48 +1,32 @@
 #include <detpic32.h>
-#include "delay.c"
-#include "send2displays_v2.c"
-#include "toBcd.c"
 
 void configAll();
 void configInterruptSystem();
 
-volatile unsigned char voltage = 0; // Global variable
+volatile int adc_value;
 
 int main(void) {
 
-    TRISB = (TRISB & 0x00FF) | 0x000F;
-    TRISD = TRISD & 0xFF9F;
+    LATEbits.LATE0 = 0;
+    TRISEbits.TRISE0 = 0;
 
     configAll();                // Configure all (digital I/O, analog input, A/D module)
     configInterruptSystem();    // Configure interrupt system
 
     AD1CON1bits.ASAM = 1;       // Start A/D conversion
 
-    unsigned int cnt = 0;
-    while(1){                                       // Ciclo infinito
-        if(cnt++ % 25 == 0) AD1CON1bits.ASAM = 1;   // Start conversion (250ms(4 samples/second))
-        send2displays_v2(toBcd(voltage & 0xFF));    // Send voltage variable to displays
-        delay(10);                                  // wait 10ms
-    }
-        // OU
-    //while(1){                                       // Ciclo infinito
-    //    if(cnt % 25 == 0) AD1CON1bits.ASAM = 1;     // Start conversion (250ms(4 samples/second))
-    //    send2displays_v2(toBcd(voltage));           // Send voltage variable to displays
-    //    cnt++;
-    //    delay(10);                                  //wait 10ms
-    //}
-
-	return 0;
+    while(1) {}// all activity is done by the ISR
+    return 0;
 }
 
-void _int_(27) isr_adc(void) {
+// Interrupt Handler
+void _int_(27) isr_adc(void) {  // Replace VECTOR by the A/D vector number - see "PIC32 family data sheet" (pages 74-76)
 
-    int soma = 0;
-    int *p = (int *)(&ADC1BUF0);
-    for(; p < (int *)(&ADC1BUF8); p+=4) soma += *p;
-    double media = (double) soma / 8.0;
-    voltage = (char)((media*33)/1023);
-    IFS1bits.AD1IF = 0;         // Reset
+    LATEbits.LATE0 = 0;     // Reset RE0 (LATE0 = 0)
+    adc_value = ADC1BUF0;   // Read ADC1BUF0 value to "adc_value"
+    LATEbits.LATE0 = 1;     // Set RE0 (LATE0 = 1)
+    AD1CON1bits.ASAM = 1;   // Start A/D conversion
+    IFS1bits.AD1IF = 0;     // Reset AD1IF flag
 }
 
 void configAll() {
