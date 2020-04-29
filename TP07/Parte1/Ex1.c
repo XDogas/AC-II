@@ -14,7 +14,7 @@ void main(void) {
 }
 
 void configTimerT3() {
-     // Config T3 (2Hz), no interrupts
+    // Config T3 (2Hz), no interrupts
     T3CONbits.TCKPS = 7;
     PR3 = 39062;
     TMR3 = 0;           // Reset timer T3 count register

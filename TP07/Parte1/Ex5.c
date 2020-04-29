@@ -1,14 +1,11 @@
 #include <detpic32.h>
-#include "send2displays_v2.c"
-#include "toBcd.c"
+#include "../../Functions/functions.h"
 
 void configAll();
 
 volatile int voltage = 0;   // Global variable
 
 void main(void) {
-
-
 
     configAll();                // Configure all (digital I/O, analog input, A/D module, timers T1 and T3, interrupts)
 
@@ -29,18 +26,31 @@ void _int_(4) isr_T1(void) {
 
 void _int_(12) isr_T3(void) {
 
-    send2displays_v2(toBcd(voltage & 0xFF));   // Send "voltage" global variable to displays
-    IFS0bits.T3IF = 0;                      // Reset T3IF flag
+    send2displays_v2(toBcd(voltage & 0xFF));    // Send "voltage" global variable to displays
+    IFS0bits.T3IF = 0;                          // Reset T3IF flag
 }
 
 void _int_(27) isr_adc(void) {
 
-    int soma = 0;
-    int *p = (int *)(&ADC1BUF0);
-    for(; p < (int *)(&ADC1BUF8); p+=4) soma += *p;
-    double media = (double) soma / 8.0;
-    voltage = (char) ((media*33)/1023);
-    IFS1bits.AD1IF = 0;     // Reset AD1IF flag
+    //int soma = 0;
+    //int *p = (int *)(&ADC1BUF0);
+    //for(; p < (int *)(&ADC1BUF8); p+=4) soma += *p;
+    //double media = (double) soma / 8.0;
+    //voltage = (char) ((media*33)/1023);
+    //IFS1bits.AD1IF = 0;     // Reset AD1IF flag
+
+    int i;
+    int *p= (int *) (&ADC1BUF0);
+    int soma=0;
+
+    for (i = 0; i < 8; i++)//numero de amostras=8
+    {
+        soma+=p[i*4];
+    }
+    int media=soma/8;//media das 8 amostras
+    voltage=(media*33*511)/1023;//calculate voltage amplitude
+
+    IFS0bits.T3IF=0;//reset T3IF
 }
 
 void configAll() {
@@ -63,14 +73,14 @@ void configAll() {
     IEC0bits.T1IE = 1;          // Enable timer T1 interrupts
     IFS0bits.T1IF = 0;          // Reset timer T1 interrupt flag
 
-    // Config Timer T1 (100 Hz)
-    T3CONbits.TCKPS = 5;
+    // Config Timer T3 (100 Hz)
+    T3CONbits.TCKPS = 2;
     PR3 = 49999;
     TMR3 = 0;                   // Reset timer T3 count register
     //Ativa interrupcoes
-    IPC3bits.T3IP=2;            //Definir a prioridade da interrupcao
-    IEC0bits.T3IE=1;            //Ativa a interrupcao do Timer T3
-    IFS0bits.T3IF=0;            //Reset da interrupcao
+    IPC3bits.T3IP = 2;          //Definir a prioridade da interrupcao
+    IEC0bits.T3IE = 1;          //Ativa a interrupcao do Timer T3
+    IFS0bits.T3IF = 0;          //Reset da interrupcao
 
     EnableInterrupts();         // Global Interrupt Enable
     T1CONbits.TON = 1;          // Enable timer T1 (must be the last command of the timer configuration sequence)
