@@ -22,6 +22,7 @@ int main(void) {
     while(1){                                       // Ciclo infinito
         if(cnt++ % 25 == 0) AD1CON1bits.ASAM = 1;   // Start conversion (250ms(4 samples/second))
         send2displays_v2(toBcd(voltage & 0xFF));    // Send voltage variable to displays
+        printf("%d\n", voltage);
         delay(10);                                  // wait 10ms
     }
         // OU
@@ -52,9 +53,10 @@ void configAll() {
 	AD1CON1bits.SSRC = 7;      //Acionador da conversao dos bits de selecao
 	AD1CON1bits.CLRASAM = 1;   //Termina a conversao quando o 1º interruptor A/D é gerado
 	AD1CON3bits.SAMC = 16;     //Amostragem do tempo é 16TAD(TAD=100ns)
-	AD1CON2bits.SMPI = 1-1;    //Interrupcao e gerada apos 1 amostra
+	AD1CON2bits.SMPI = 8-1;    //Interrupcao e gerada apos 8 amostras
 	AD1CHSbits.CH0SA = 4;      //Entrada AN4
 	AD1CON1bits.ON = 1;        //Inicia o conversor A/D
+    AD1CON3bits.ADCS=0;
 }
 
 void configInterruptSystem() {
