@@ -19,6 +19,8 @@ int main(void) {
 
     LATDbits.LATD6 = 1;     // display high active
     LATDbits.LATD5 = 1;     // display low active
+    // ou em vez das 2 linhas anteriores:
+    //LATD = (LATD & 0xFF9F) | 0x0060;    // 1111.1111.1001.1111 | 0000.0000.0110.0000
 
     char counter = 0;
     int i;
@@ -26,7 +28,7 @@ int main(void) {
     while(1) {
         i = 0;
         do {
-            //delay(20);  // 50 Hz (20 ms) low flicker
+            //delay(20);// 50 Hz (20 ms) low flicker
                         // or                           (comentar 1 dos delays)
             delay(10);  // 100 Hz (10 ms) no flicker
             send2displays_v2(counter);

@@ -19,6 +19,8 @@ int main(void) {
 
     LATDbits.LATD6 = 1;     // Select display high  // display high active
     LATDbits.LATD5 = 0;                             // display low inactive
+    // ou em vez das 2 linhas anteriores:
+    //LATD = (LATD & 0xFF9F) | 0x0040;    // 1111.1111.1001.1111 | 0000.0000.0100.0000
 
     unsigned char value;
     char hexValue;

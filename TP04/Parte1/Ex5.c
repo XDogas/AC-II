@@ -5,7 +5,7 @@ int main(void) {    // o resultado é igual ao anterior
 
     unsigned char segment;
 
-    LATD = (LATD & 0xFF9F) | 0x0040;    // display high active, low inactive
+    LATD = (LATD & 0xFF9F) | 0x0040;    // display high active, low inactive (1111.1111.1001.1111 | 0000.0000.0100.0000)
 
     TRISB= TRISB & 0x80FF;  // configure RB8-RB14 as outputs (bin:1000.0000.1111.1111 -> hex:0x80FF)
 
@@ -14,7 +14,7 @@ int main(void) {    // o resultado é igual ao anterior
 
     while(1) {
 
-        LATD = LATD ^ 0x0060;   // toggle display selection
+        LATD = LATD ^ 0x0060;   // toggle display selection (0000.0000.0110.0000)
 
         segment = 1;
 

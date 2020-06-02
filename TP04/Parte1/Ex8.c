@@ -7,7 +7,7 @@ int main(void) {
     //PORTB = PORTB & 0XFFF0;   // inicialize
     //TRISB = TRISB | 0x000F;   // configure RB0 to RB3 as inputs (bin:0000.0000.0000.1111 -> hex:0x000F)
     // ou em vez das 2 linhas anteriores:
-    TRISB = (TRISB & 0xFFF0) | 0x000F;
+    TRISB = (TRISB & 0xFFF0) | 0x000F;  // 1111.1111.1111.0000 | 0000.0000.0000.1111
 
     LATB = LATB & 0x80FF;   // inicialize
     TRISB = TRISB & 0x80FF; // configure RB8 to RB14 as outputs (bin:1000.0000.1111.1111 -> hex:0x80FF)
@@ -19,6 +19,8 @@ int main(void) {
 
     LATDbits.LATD6 = 0;     // Select display low   // display high inactive
     LATDbits.LATD5 = 1;                             // display low active
+    // ou em vez das 2 linhas anteriores:
+    //LATD = (LATD & 0xFF9F) | 0x0020;    // 1111.1111.1001.1111 | 0000.0000.0010.0000
 
     unsigned char value;
     char hexValue;

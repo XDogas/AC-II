@@ -54,6 +54,29 @@ int main(void) {
             delay(250);
             LATBbits.LATB15 = 0;
         }
+        else if(c == 't' || c == 'T')   // acrescentado ao exercicio: tecla t = troca do display,
+        {                               // iluminando o display a ser utilizado
+            LATDbits.LATD5 = !LATDbits.LATD5;
+            LATDbits.LATD6 = !LATDbits.LATD6;
+
+            LATBbits.LATB8 = 1;
+            LATBbits.LATB9 = 1;
+            LATBbits.LATB10 = 1;
+            LATBbits.LATB11 = 1;
+            LATBbits.LATB12 = 1;
+            LATBbits.LATB13 = 1;
+            LATBbits.LATB14 = 1;
+            LATBbits.LATB15 = 1;
+            delay(250); // 0.250ms
+            LATBbits.LATB8 = 0;
+            LATBbits.LATB9 = 0;
+            LATBbits.LATB10 = 0;
+            LATBbits.LATB11 = 0;
+            LATBbits.LATB12 = 0;
+            LATBbits.LATB13 = 0;
+            LATBbits.LATB14 = 0;
+            LATBbits.LATB15 = 0;
+        }
     }
 
     return 0;
