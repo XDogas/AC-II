@@ -15,7 +15,7 @@ int main(void) {
     //TRISDbits.TRISD5 = 0;   // configure RD5 to RD6 as outputs
     //TRISDbits.TRISD6 = 0;
     // ou em vez das 2 linhas anteriores:
-    TRISD = TRISD & 0xFF9F; //(bin:1111.1111.1001.1111 -> hex:0x80FF)
+    TRISD = TRISD & 0xFF9F; //(bin:1111.1111.1001.1111 -> hex:0xFF9F)
 
     LATDbits.LATD6 = 1;     // display high active
     LATDbits.LATD5 = 1;     // display low active
