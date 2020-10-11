@@ -10,8 +10,12 @@ volatile unsigned char voltage = 0; // Global variable
 
 int main(void) {
 
-    TRISB = (TRISB & 0x00FF) | 0x000F;
+    //TRISB = (TRISB & 0x00FF) | 0x000F;
+    // ou (ver qual está bem)
+    TRISB = TRISB & 0x80FF;
+
     TRISD = TRISD & 0xFF9F;
+    LATD = (LATD & 0xFF9F) | 0x0060;
 
     configAll();                // Configure all (digital I/O, analog input, A/D module)
     configInterruptSystem();    // Configure interrupt system
