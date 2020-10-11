@@ -7,11 +7,13 @@ unsigned char toBcd(unsigned char);
 
 int main(void) {
 
-    TRISB = (TRISB & 0x00FF) | 0x000F;
+    //TRISB = (TRISB & 0x00FF) | 0x000F;
+    // ou (ver qual está bem)
+    TRISB = TRISB & 0x80FF;
+    
     TRISD = TRISD & 0xFF9F;
 
-    LATDbits.LATD5=0;
-    LATDbits.LATD6=0;
+    LATD = (LATD & 0xFF9F) | 0x0060;
 
     // configurar o porto RB4 como entrada analógica :
     TRISBbits.TRISB4 = 1;       // RB4 digital output disconnected

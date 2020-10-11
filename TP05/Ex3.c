@@ -35,13 +35,13 @@ int main(void) {
         int *p = (int *)(&ADC1BUF0);
 
         int i;
-        for(i = 0; i < 16; i++) {               // com este for os numeros têm sempre 4 digitos
+        for(i = 0; i < 16; i++) {
             printInt(p[i*4], 10 | 4 << 16);     // 16 MSBits with the number of chars (4 in this situation)
             putChar(' ');                       // 16 LSBits with the base (10 in this situation)
         }
             // OU
         //for(; p <= (int *)(&ADC1BUFF); p+=4) {
-        //    printInt(*p, 10 | 4 << 10);         // Print value
+        //    printInt(*p, 10 | 4 << 16);         // Print value
         //    putChar(' ');
         //}
 
