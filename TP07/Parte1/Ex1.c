@@ -4,6 +4,8 @@ void configTimerT3();
 
 void main(void) {
 
+    printf(%d\n, 20*10^6 / (2 * (65535+1)));
+
     configTimerT3();                // Configure Timer T3 (2Hz with interrupts disabled)
 
     while(1) {
